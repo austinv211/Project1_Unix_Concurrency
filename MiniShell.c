@@ -11,7 +11,7 @@ int main()
     char cmd[MAX_SIZE];
 
     //create a variable to store our pid
-    __pid_t pid;
+    pid_t pid;
 
     while ((strcmp(cmd, "exit")) != 0) {
         

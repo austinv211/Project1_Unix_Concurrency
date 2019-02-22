@@ -2,45 +2,13 @@
 #include <string.h>
 #include <stdbool.h>
 
-int main(int argc, char* argv[]) {
-    //create a file pointer
-    FILE* fp;
-
-    //if we have more than 1 argc, parse the file
-    if (argc > 1) {
-
-        //open the file for writing
-        char* fileName = argv[1];
-
-        //open the given file
-        fp = fopen(fileName,"r");
-
-        //print the user entered the filename
-        printf("INPUT: %s\n", fileName);
-
-        //attempt to parse the file
-        ParseFile(fp, fileName);
-
-        printf("*******COMPLETE********\n");
-    }
-    else if (argc == 1) {
-        printf("ARG ERROR: You must specify the file path as a command line arg.\n");
-    }
-    else {
-        printf("ARG ERROR: Too many arguments specified. Please only include the input file.\n");
-    }
-
-    //return 0 for all is well
-    return 0;
-}
-
 //method to parse the input file
 int ParseFile(FILE* fp, char fileName[]) {
 
     //if the input file is equal to NULL, exit the method
     if (fp == NULL) {
         printf("Cannot parse file: %s", fileName);
-        exit(1);
+        return 1;
     }
 
     //initialize our sequence, count, startIndex, endIndex, and output File
@@ -128,7 +96,7 @@ int ParseFile(FILE* fp, char fileName[]) {
 
         //if we didn't already print the output for the sequence, print it
         if (!printed) {
-            fprintf(op, sequence);
+            fprintf(op, "%s", sequence);
             fprintf(op, "\n");
         }
         
@@ -141,4 +109,36 @@ int ParseFile(FILE* fp, char fileName[]) {
     //return a 0 for all is well
     return 0;
 
+}
+
+int main(int argc, char* argv[]) {
+    //create a file pointer
+    FILE* fp;
+
+    //if we have more than 1 argc, parse the file
+    if (argc > 1) {
+
+        //open the file for writing
+        char* fileName = argv[1];
+
+        //open the given file
+        fp = fopen(fileName,"r");
+
+        //print the user entered the filename
+        printf("INPUT: %s\n", fileName);
+
+        //attempt to parse the file
+        ParseFile(fp, fileName);
+
+        printf("*******COMPLETE********\n");
+    }
+    else if (argc == 1) {
+        printf("ARG ERROR: You must specify the file path as a command line arg.\n");
+    }
+    else {
+        printf("ARG ERROR: Too many arguments specified. Please only include the input file.\n");
+    }
+
+    //return 0 for all is well
+    return 0;
 }

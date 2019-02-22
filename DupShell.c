@@ -26,7 +26,7 @@ int create_process(int in, int out, struct command *cmd)
     //catch pid error condition
     if (pid < 0) {
         perror("Fork Error");
-        _exit(1);
+        return 1;
     }
     //child process
     else if (pid == 0)
@@ -50,10 +50,11 @@ int create_process(int in, int out, struct command *cmd)
         }
 
         // call execvp on our cmd, use the arrow operator to get that argv from the struct cmd points to
-        if (execvp(cmd->argv[0], (char *const *)cmd->argv) == -1) {
-            perror("unknown file or command");
-            _exit(1);
-        }
+        execvp(cmd->argv[0], cmd->argv);
+
+        perror(cmd->argv[0]);
+
+        return -1;
     }
     else {
         //parent process
@@ -62,6 +63,9 @@ int create_process(int in, int out, struct command *cmd)
         //return 0
         return 0;
     }
+
+    // return 1 for an error condition
+    return -1;
 }
 
 //fork_pipes function to take a number n (pipes_to_produce) and a structure (cmds to run)
@@ -101,10 +105,11 @@ int fork_pipes(int n, struct command *cmd)
         dup2(in, 0);
 
     // call the last command using the current process, this should be the child process created in our main method
-    if (execvp(cmd[i].argv[0], (char *const *)cmd[i].argv) == -1) {
-        perror("unknown command / file");
-        _exit(1);
-    }
+    execvp(cmd[i].argv[0], cmd[i].argv);
+        
+    perror(cmd[i].argv[0]);
+
+    return -1;
 }
 
 int main()
@@ -113,7 +118,7 @@ int main()
     char cmd[MAX_SIZE];
 
     //create a variable to store the pid for starting our fork_pipes process
-    __pid_t pid;
+    pid_t pid;
 
     while ((strcmp(cmd, "exit")) != 0)
     {
@@ -125,11 +130,11 @@ int main()
         if (getcwd(cwd, sizeof(cwd)) == NULL)
         {
             perror("Error with getting the current working directory.");
-            return 1;
+            return -1;
         }
 
         //get the command from the user
-        printf("MoreShell:%s$ ", cwd);
+        printf("DupShell:%s$ ", cwd);
         fgets(cmd, MAX_SIZE, stdin);
 
         //get a pointer to the position for the newline char
@@ -209,7 +214,7 @@ int main()
             if (pid < 0)
             {
                 perror("Fork Error");
-                _exit(1);
+                return 1;
             }
             //child process
             if (pid == 0)
@@ -225,7 +230,9 @@ int main()
                 }
 
                 //call fork_pipes with the cmd array, and the number of pipes we need to make
-                fork_pipes(pipe_count, cmd);
+                if (fork_pipes(pipe_count, cmd) == -1) {
+                    break;
+                }
             }
             //parent process, wait for child to complete
             else
@@ -234,4 +241,6 @@ int main()
             }
         }
     }
+
+    return 0;
 }
