@@ -6,20 +6,38 @@
 #include<string.h> 
 #include<sys/wait.h>
 #define MAX_SIZE 100000
+
 //prototype MyCompress
 void MyCompress(char[], char[]);
   
 int main(int argc, char* argv[]) 
 { 
+    //create a file pointer for input and output
+    FILE* fp;
+    FILE* op;
 
-    //determine if the user entered the correct number of arguments
-    if (argc < 2) {
-        printf("\nARG ERROR: Must provide input FileName in arguments\n");
-        return 1;
+    //store char* for fileNames
+    char* fileName;
+    char* outputFile;
+
+    //if we have more than 1 argc, parse the file
+    if (argc == 3) {
+
+        //get a reference to the input file
+        char* fileName = argv[1];
+
+        // get a reference to the output file
+        char* outputFile = argv[2];
+
+        //open the given file
+        fp = fopen(fileName,"r");
+
+        //open the output file
+        op = fopen(outputFile, "w");
     }
-    else if (argc > 2) {
-        printf("\nARG ERROR: Too many arguments provided\n");
-        return 1;
+    else {
+        fprintf(stderr, "ARG ERROR: You must specify the input file then output file name as args\n");
+        return -1;
     }
 
     //We use one pipe to read from file then send and compress and write to output file
@@ -32,7 +50,7 @@ int main(int argc, char* argv[])
     if (pipe(fd1)==-1) 
     { 
         fprintf(stderr, "Pipe Failed" ); 
-        return 1; 
+        return -1; 
     }
 
     //fork a child process
@@ -42,7 +60,7 @@ int main(int argc, char* argv[])
     if (pid < 0) 
     { 
         fprintf(stderr, "fork Failed" ); 
-        return 1; 
+        return -1; 
     } 
   
     // Parent process 
@@ -51,20 +69,14 @@ int main(int argc, char* argv[])
         // Close reading end of first pipe
         close(fd1[0]);
 
-        // get the filename from the args
-        char* fileName = argv[1];
-
-        //open the file for a file pointer
-        FILE* fp = fopen(fileName, "r");
-
         //create a str buffer and a max file size string
         char str[128];
         char input_str[MAX_SIZE] = "";
 
         //check if the file is null
         if (fp == NULL){
-            printf("Could not open file %s",fileName);
-            return 1;
+            fprintf(stderr, "Could not open input file");
+            return -1;
         }
 
         //read from the file and add to our total file string
@@ -99,9 +111,6 @@ int main(int argc, char* argv[])
         //set an int for reading the separate strings from the file
         int offset;
 
-        //get reference to output file
-        FILE* op = fopen("output.txt", "w");
-
         // read each sequence from the data pointer and then compress the line using the
         // MyCompress() function
         while (sscanf(data, "%s%n", read_str, &offset) == 1) {
@@ -126,8 +135,11 @@ int main(int argc, char* argv[])
         close(fd1[0]);
   
         // child process complete
-        exit(0); 
+        return 0;
     }
+
+    // return -1 for error condition
+    return -1;
 }
 
 void MyCompress(char inputData[], char resultReplaced[]) {

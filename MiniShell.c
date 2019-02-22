@@ -51,7 +51,7 @@ int main()
                     //have an error condition
                     printf("\"%s\" is not a recognized command or file.\n", cmd);
 
-                    _exit(1);
+                    return -1;
                 }
             }
             //parent process, wait for child process to complete
@@ -63,4 +63,6 @@ int main()
         //flush the stdout
         fflush(stdout);
     }
+
+    return 0;
 }
