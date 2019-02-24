@@ -37,8 +37,6 @@ int main(int argc, char* argv[])
 	//Makes sure this one runs once
 	if(!readFile)
 	{
-		cout << "Splitting File...\n";
-
 		//split the file and handle error conditions
 		if (splitFile(dummies, inputFileName) == -1) {
 			return -1;
@@ -46,9 +44,6 @@ int main(int argc, char* argv[])
 
 		readFile = true;
 	}
-
-	// print to the screen
-	cout << "Compressing.. \n";
 	
 	//Create Forks to the number of splits/dummies size
 	//This loop goes backwards
@@ -73,7 +68,7 @@ int main(int argc, char* argv[])
     {
         wait(NULL); 
     }
-
+	
 	return 0;
 }
 
@@ -91,7 +86,7 @@ int splitFile(vector<string> &dummies, string &inputFileName)
 	// catch error conditions
 	if (myFile.fail())
 	{
-		cout << "Input file does not exist.\n";
+		cerr << "Input file does not exist.\n";
 		return -1;
     }
 
