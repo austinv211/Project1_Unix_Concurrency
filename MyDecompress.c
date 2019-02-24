@@ -129,6 +129,7 @@ int main(int argc, char* argv[]) {
     }
     else {
         perror("ARG ERROR: You must specify the input file then output file name as args\n");
+        return -1;
     }
 
     //return 0 for all is well
