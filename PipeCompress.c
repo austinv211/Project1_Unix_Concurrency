@@ -138,8 +138,10 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    // return -1 for error condition
-    return -1;
+    printf("File Compressed\n");
+    
+    // return 0
+    return 0;
 }
 
 void MyCompress(char inputData[], char resultReplaced[]) {

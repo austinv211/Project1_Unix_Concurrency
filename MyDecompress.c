@@ -112,6 +112,11 @@ int main(int argc, char* argv[]) {
         //open the given file
         fp = fopen(fileName,"r");
 
+        if (fp == NULL) {
+            fprintf(stderr, "Input File does not exist, exiting\n");
+            return -1;
+        }
+
         //open the output file
         op = fopen(outputFile, "w");
 
