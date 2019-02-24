@@ -1,0 +1,22 @@
+{
+  "name": "test_project1",
+  "version": "1.0.0",
+  "description": "tests code for project 1",
+  "main": "testCode.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/austinv211/Project1_Unix_Concurrency.git"
+  },
+  "author": "Austin Vargason",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/austinv211/Project1_Unix_Concurrency/issues"
+  },
+  "homepage": "https://github.com/austinv211/Project1_Unix_Concurrency#readme",
+  "dependencies": {
+    "@types/node": "^11.9.5"
+  }
+}
