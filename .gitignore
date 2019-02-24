@@ -1,0 +1,8 @@
+*
+!makefile
+!*.c
+!*.cpp
+!prj1README.txt
+!*.ts
+!*.js
+!.gitignore
