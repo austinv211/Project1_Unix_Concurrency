@@ -9,3 +9,8 @@ MyDecompress
 ParFork
 ParThread
 PipeCompress
+DupTest
+output.txt
+pipeCompressText.txt
+test.txt
+testFile.txt

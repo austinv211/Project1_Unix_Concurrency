@@ -36,7 +36,7 @@ int main (int argc, char* argv[])
         cout << "Child is starting compression...\n";
 
         //Execute line command usage to compress
-		execl("./MyCompress", "./MyCompress",  fileName, outputFileName);
+		execl("./MyCompress", "./MyCompress",  fileName, outputFileName, NULL);
 	}
     
     //Parent Prosses

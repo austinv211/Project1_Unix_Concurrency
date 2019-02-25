@@ -7,5 +7,5 @@ all: MyCompress.cpp MyDecompress.c ForkCompress.cpp PipeCompress.c ParFork.cpp M
 	gcc MiniShell.c -o MiniShell
 	gcc MoreShell.c -o MoreShell
 	gcc DupShell.c -o DupShell
-	g++ ParThread.cpp -o ParThread
+	g++ -pthread ParThread.cpp -o ParThread
 	gcc MeasureRunningSpeed.c -o MeasureRunningSpeed
